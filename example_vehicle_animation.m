@@ -1,13 +1,21 @@
 % Animation of a vehicle driving
 % Author: Taro Suzuki
+addpath('./MatRTKLIB');
 clear;
 close all;
 clc;
 
 %% Load reference trajectory
-ref = readmatrix("data/vehicle_nagoya/reference.csv");
+% ref = readmatrix("data/vehicle_nagoya/reference.csv");
+load('../my_kalman/EKF_data_19_12_2018_Shinjuku.mat');
+
+ref = zeros(length(time),15);
+ref(:,3:5) = [lat lon h];
+ref(:,11) = Heading_int;
+
 n = size(ref, 1);
-dt = 1.0; % Time interval (s)
+% dt = 1/50; % Time interval (s)
+dt = 1; % Time interval (s)
 
 % Vehicle position/heading
 pos = gt.Gpos(ref(:,3:5),"llh");
